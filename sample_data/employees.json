@@ -1,0 +1,16 @@
+﻿[
+  {
+    "full_name": "Arun Kumar",
+    "email": "arun.kumar@example.com",
+    "department_id": 1,
+    "manager_id": null,
+    "role_ids": [1]
+  },
+  {
+    "full_name": "Priya Devi",
+    "email": "priya.devi@example.com",
+    "department_id": 1,
+    "manager_id": null,
+    "role_ids": [1]
+  }
+]
