@@ -96,18 +96,18 @@ The API container runs `alembic upgrade head` before starting FastAPI.
 
 Use the interactive API documentation to test the endpoints and view the required fields.
 
+
 ## Tests
 
-Install the dependencies:
+Run the automated tests inside the Docker API container:
 
 ```bash
-pip install -r requirements.txt
+docker compose exec api sh -c "PYTHONPATH=/app pytest -v"
 ```
 
-Run the tests:
+The project tests verify application health and database models. The tests can be run after starting the Docker Compose services.
 
-```bash
-pytest -q
+**Test result:** 3 tests passed successfully.
 ```
 
 The model tests use an in-memory SQLite database. The test command may depend on your environment configuration.
