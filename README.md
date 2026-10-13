@@ -1,6 +1,15 @@
 # Employee Management API — Task 2
 
-A RESTful API built using FastAPI, SQLAlchemy, and PostgreSQL to manage employees, departments, and roles. This project demonstrates layered application structure, database relationships, migrations, and automated testing.
+A layered FastAPI project demonstrating SQLAlchemy models and relationships for employees, departments, and roles.
+
+## Technology
+
+- Python + FastAPI: HTTP API
+- SQLAlchemy 2: ORM models and relationships
+- PostgreSQL: relational database
+- Alembic: versioned schema migrations
+- Docker Compose: runs API and database
+- pytest: automated tests
 
 ## Features
 
@@ -9,62 +18,25 @@ A RESTful API built using FastAPI, SQLAlchemy, and PostgreSQL to manage employee
 - Create and retrieve departments.
 - Create and retrieve roles.
 - Support employee-manager relationships.
-- Support many-to-many relationships between employees and roles.
-- Validate API requests using Pydantic schemas.
+- Support many-to-many employee-role relationships.
+- Validate request data using Pydantic schemas.
 - Manage database schema using Alembic migrations.
-- Run the application and database using Docker Compose.
-- Include automated tests using pytest.
+- Run the API and database using Docker Compose.
 
-## Technologies Used
+## Data Design
 
-- Python
-- FastAPI
-- SQLAlchemy 2
-- PostgreSQL
-- Alembic
-- Docker and Docker Compose
-- pytest
-
-## Project Structure
-
-```text
-employee_management_task2/
-├── app/
-│   ├── core/
-│   ├── db/
-│   ├── models/
-│   ├── main.py
-│   └── schemas.py
-├── alembic/
-│   └── versions/
-├── docs/
-│   ├── api_contract.md
-│   └── er_diagram.md
-├── sample_data/
-│   └── employees.json
-├── tests/
-├── .env.example
-├── .gitignore
-├── alembic.ini
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-└── README.md
-```
-
-## Database Relationships
-
-- One department can have multiple employees.
-- An employee can optionally report to another employee through `manager_id`.
+- One department can have many employees.
+- An employee can optionally report to another employee using `manager_id`.
 - Employees and roles have a many-to-many relationship through `employee_roles`.
-- Employee email addresses are unique and indexed.
-- Department and role names are unique.
+- Employee email is unique and indexed.
+- Department and manager IDs are indexed for lookup.
+- Role and department names are unique.
 
 ## Prerequisites
 
-- Python installed
-- Docker Desktop installed and running
-- Git (optional, for version control)
+- Python
+- Docker Desktop
+- Git (optional)
 
 ## Setup and Run
 
@@ -77,18 +49,22 @@ employee_management_task2/
 
 2. Copy `.env.example` to `.env` and configure the required environment variables.
 
-3. Start the application:
+3. Start Docker Desktop.
+
+4. Start the application:
 
    ```bash
    docker compose up --build
    ```
 
-4. Open the API endpoints:
+5. Open the API:
 
    - Health check: `http://localhost:8001/health`
    - Interactive API documentation: `http://localhost:8001/docs`
 
-**Note:** The local API port is configured as `8001` in this project. If you change the port mapping in `docker-compose.yml`, update these URLs accordingly.
+**Note:** The API uses local port `8001` in the current Docker Compose configuration. Update these URLs if you change the port mapping.
+
+The API container runs `alembic upgrade head` before starting FastAPI.
 
 ## API Endpoints
 
@@ -118,11 +94,11 @@ employee_management_task2/
 }
 ```
 
-Use the interactive documentation at `/docs` to test requests and view the required fields.
+Use the interactive API documentation to test the endpoints and view the required fields.
 
-## Running Tests
+## Tests
 
-Activate your Python environment and install the dependencies:
+Install the dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -134,23 +110,23 @@ Run the tests:
 pytest -q
 ```
 
-The model tests use an in-memory SQLite database. Run the tests in your configured environment to verify the complete test setup.
+The model tests use an in-memory SQLite database. The test command may depend on your environment configuration.
 
 ## Database Migrations
 
-The application uses Alembic to manage database schema changes. The Docker startup command runs migrations before starting the API.
+Alembic is used to manage database schema changes. The Docker startup process runs migrations before starting the API.
 
-## Sample Data and Documentation
+## Project Documentation
 
-- Sample employee data: `sample_data/employees.json`
+- Sample data: `sample_data/employees.json`
 - API contract: `docs/api_contract.md`
 - Entity relationship diagram: `docs/er_diagram.md`
 
 ## Security
 
 - Keep `.env` private.
-- Do not commit passwords, secret keys, or other credentials.
-- Use `.env.example` to document the required environment variables without exposing real secrets.
+- Never commit passwords or secret keys.
+- Use `.env.example` to document required environment variables without exposing real credentials.
 
 ## Author
 
